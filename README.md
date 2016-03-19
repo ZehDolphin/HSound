@@ -1,11 +1,4 @@
-<h>
-  _    _  _____                       _ 
- | |  | |/ ____|                     | |
- | |__| | (___   ___  _   _ _ __   __| |
- |  __  |\___ \ / _ \| | | | '_ \ / _` |
- | |  | |____) | (_) | |_| | | | | (_| |
- |_|  |_|_____/ \___/ \__,_|_| |_|\__,_|
-</h>
+# HSound
 
 To download the latest build (1.0) go to this <a href="https://drive.google.com/file/d/0B0KPOpHsYhCpLU9rd2ZBNThEMDA/view?usp=sharing">link</a>.
 
