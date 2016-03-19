@@ -1,6 +1,6 @@
 # HSound
 
-To download the latest build (1.0) go to this <a href="https://drive.google.com/file/d/0B0KPOpHsYhCpLU9rd2ZBNThEMDA/view?usp=sharing">link</a>.
+To **download** the latest build (1.0) go to this <a href="https://drive.google.com/file/d/0B0KPOpHsYhCpLU9rd2ZBNThEMDA/view?usp=sharing">link</a>.
 
 
 
