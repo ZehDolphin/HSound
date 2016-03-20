@@ -26,11 +26,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class Sound {
 
 	/**
-	 * The volume of the clip.
-	 */
-	public Volume volume = Volume.LOW;
-
-	/**
 	 * AudioStream is not to be messed with.
 	 */
 	private AudioInputStream inputStream;
@@ -44,6 +39,12 @@ public class Sound {
 	 * FloatControl - Used to control pan.
 	 */
 	private FloatControl panControl;
+	
+	/**
+	 * FloatControl - Used to control master gain.
+	 * @since 1.1
+	 */
+	private FloatControl masterGainControl;
 
 	public Sound(String path) {
 		this.path = path;
@@ -69,11 +70,50 @@ public class Sound {
 	public float getPan() {
 		return pan;
 	}
+	
+	/**
+	 * @since 1.1
+	 */
+	private float gain = 0.0f;
+
+	/**
+	 * Increase the clips master gain by the selected offset.
+	 * @since 1.1
+	 */
+	public void increaseMasterGain(float offset) {
+		if (gain + offset <= masterGainControl.getMaximum())
+			gain += offset;
+		masterGainControl.setValue(gain);
+	}
+
+	/**
+	 * Sets the clips master gain.
+	 * @since 1.1
+	 */
+	public void setMasterGain(float gain) {
+		if (gain > masterGainControl.getMaximum())
+			return;
+		this.gain = gain;
+		masterGainControl.setValue(gain);
+	}
+
+	/**
+	 * @since 1.1
+	 * @return The clips master gain.
+	 */
+	public float getMasterGain() {
+		return gain;
+	}
 
 	/*
 	 * If there is a pan error, display it only once.
 	 */
 	private boolean displayedPanError = false;
+	
+	/*
+	 * If there's a master gain error, display it once.
+	 */
+	private boolean displayedGainError = false;
 
 	/**
 	 * Plays this sound clip, if the sound is already running it will be stopped. <br>
@@ -111,11 +151,23 @@ public class Sound {
 				panControl.setValue(pan);
 			} catch (Exception e) {
 				if (!displayedPanError) {
-					System.err.println("[HSOUND] Pan control is not supported for sound file: " + path);
+					System.err.println("[HSOUND] 'Pan' control is not supported for sound file: '" + path + "'");
 					displayedPanError = true;
 				}
 			}
+			
+			try {
+				masterGainControl = (FloatControl) c.getControl(FloatControl.Type.MASTER_GAIN);
+				masterGainControl.setValue(gain);
+			} catch(Exception e) {
+				if (!displayedGainError) {
+					System.err.println("[HSOUND] 'Master Gain' control is not supported for sound file: '" + path + "'");
+					displayedGainError = true;
+				}
+			}
 
+			currentlyPlaying.add(c);
+			
 			// Play the clip.
 			c.start();
 
@@ -131,6 +183,7 @@ public class Sound {
 					}
 					if (t == Type.STOP) {
 						 c.close();
+						 currentlyPlaying.remove(c);
 					}
 				}
 			});
@@ -140,6 +193,11 @@ public class Sound {
 		}
 	}
 
+	/**
+	 * ArrayList that contains all instances of the clips that are playing.
+	 */
+	private ArrayList<Clip> currentlyPlaying = new ArrayList<Clip>();
+	
 	public void loop() {
 		try {
 			inputStream = AudioSystem.getAudioInputStream(Sound.class.getResourceAsStream("/" + path));
@@ -151,6 +209,8 @@ public class Sound {
 			c.open(inputStream);
 			c.loop(Clip.LOOP_CONTINUOUSLY);
 
+			currentlyPlaying.add(c);
+			
 			c.addLineListener(new LineListener() {
 
 				@Override
@@ -162,6 +222,7 @@ public class Sound {
 					}
 					if (t == Type.STOP) {
 						c.close();
+						currentlyPlaying.remove(c);
 					}
 				}
 			});
@@ -171,6 +232,17 @@ public class Sound {
 		}
 	}
 
+	/**
+	 * Stops all instances of this sound.
+	 * @since 1.1
+	 */
+	public void stop() {
+		for (Clip c : currentlyPlaying) {
+			c.stop();
+			c.close();
+		}
+	}
+	
 	private ArrayList<SoundStateListener> listeners = new ArrayList<>();
 
 	/**

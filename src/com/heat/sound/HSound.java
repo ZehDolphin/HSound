@@ -9,9 +9,12 @@ package com.heat.sound;
  * <br>
  * <i><b>Legal notice: </b></i><br>
  * <i>
- * The library "HSound" is released under an open source type license, therefore the code can <br>
- * be viewed, changed and studied as long as it is NOT re-released under a different name and/or <br>
- * domain! All rights for "HSound" is reserved to the author, Pontus Wirsching.
+ * The library "HSound" is released as open source, this means that the library can't be distributed <br>
+ * under a different name/domain, though it can be used in projects that are commercialy released as <br>
+ * long as credit for the library "HSound" goes to "Pontus Wirsching". <br>
+ * The source code of "HSound" is released as open source as well, the same goes for this, it cannot <br>
+ * be released under a different name/domain, it can only be viewed and/or changed as a private project. <br>
+ * By using the code and/or library you agree to the terms above!! <br>
  * </i>
  * 
  * @author Pontus Wirsching
