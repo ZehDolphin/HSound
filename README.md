@@ -2,6 +2,9 @@
 
 To **download** the latest build (1.0) go to this <a href="https://drive.google.com/file/d/0B0KPOpHsYhCpLU9rd2ZBNThEMDA/view?usp=sharing">link</a>.
 
+If you want to see what's currently in development go to the trello board: <br>
+<a href="https://trello.com/b/9naGPJjx/hsound">https://trello.com/b/9naGPJjx/hsound</a>
+
 
 
 Legal notice:
